@@ -26,8 +26,8 @@ byte notes_lcd[10][8] = {
     { B01111000, B01111100, B01100110, B01100110, B01100110, B01100110, B01111100, B01111000 },  //D
     { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },  //D#(NONE)
     { B01111110, B01111110, B01100000, B01111110, B01111110, B01100000, B01111110, B01111110 },  //E
-    { B01111110, B01111110, B00000110, B00111110, B00111110, B00000110, B00000110, B00000110 },  //F
-    { B00011100, B00111110, B00100110, B00000110, B01110110, B00100110, B00111110, B00011100 },  //G
+    { B01100000, B01100000, B01100000, B01111100, B01111100, B01100000, B01111100, B01111100 },  //F
+    {B00011100, B01111100, B01100100, B01100000, B01101110, B01100100, B01111100, B0011100},    //G
     { B01100110, B01100110, B01111110, B01111110, B01100110, B01100110, B00111100, B00011000 },  //A
     { B01111100, B01100110, B01100110, B01111100, B01111110, B01100110, B01100110, B00111110 },  //B
     { B00111110, B01111110, B01100000, B01100000, B01100000, B01100000, B01111110, B00111110 }  //C
@@ -194,7 +194,7 @@ void writeInMatrix(byte b[], int erasing) {
       SelectRow(i + 1);
     // Each row and column is set as HIGH and LOW, respectivelly, in a very small time interval
     // Set this delay to 100 to see the multiplexing effect!
-    delay(3);
+    delay(2);
   }
 }
 
@@ -209,7 +209,7 @@ void loop() {
     buttonStates[i] = digitalRead(buttonPins[i]);
   }
   lcd.setCursor(7, 0);
-  for (int i = 0, pos = 6, offset = 1; i < numButtons; i++) {
+  for (int i = 0; i < numButtons; i++) {
     if (buttonStates[i] == HIGH) {
       numPlayingNotes++;
       if (numPlayingNotes > 3) {
@@ -220,7 +220,7 @@ void loop() {
       writeInMatrix(notes_lcd[i], 0);
     }
   }
-
+  Serial.println(numPlayingNotes);
   if (numPlayingNotes == 0) {
     lcd.clear();
     lcd.setCursor(0, 0);
@@ -247,13 +247,11 @@ void loop() {
       lcd.print("F major");
     Serial.println("F minor");
   } else {
-    Serial.println("No chords being played");
+    //Serial.println("No chords being played");
   }
 
   // print out the chords being played
   //digitalWrite(22, HIGH);
   //digitalWrite(23, LOW);
-
-
-  delay(20);
+  delay(50);
 }
