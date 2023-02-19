@@ -210,41 +210,42 @@ void loop() {
       }
 
       lcd.print(notes[i]);
-      writeInMatrix(notes_lcd[i], 0);
       chordState += i;
     }
   }
-  if(numPlayingNotes == 0)
+
+  if (numPlayingNotes == 1) {
+    writeInMatrix(notes_lcd[i], 0);
+  } else if (numPlayingNotes == 0) {
     writeInMatrix(notes_lcd[1], 0);
-
-  if (numPlayingNotes == 3) {
+  } else if (numPlayingNotes == 3) {
     lcd.setCursor(6, 1);
-    switch (chordState) {
-      case 9:
-        lcd.print("C minor");
-        Serial.writeln("C minor");
-        break;
-      case 10:
-        lcd.print("C major");
-        Serial.writeln("C major");
-        break;
-      case 14:
-        lcd.print("D minor");
-        Serial.writeln("C minor");
-
-        break;
-      case 18:
-        lcd.print("E minor");
-        break;
-      case 21:
-        lcd.print("F major");
-        break;
-    }
-
-    // print out the chords being played
-    //digitalWrite(22, HIGH);
-    //digitalWrite(23, LOW);
+    if (buttonStates[0] && buttonStates[3] && buttonStates[6]) {
+      lcd.print("C minor");
+      Serial.writeln("C minor");
+    } else if (buttonStates[0] && buttonStates[4] && buttonStates[6]) {
+      lcd.print("C major");
+      Serial.writeln("C major");
+    } else if (buttonStates[2] && buttonStates[5] && buttonStates[7]) {
+      lcd.print("D minor");
+      Serial.writeln("D minor");
+    } else if (buttonStates[4] && buttonStates[6] && buttonStates[8]) {
+      lcd.print("E minor");
+      Serial.writeln("E minor");
+    } else if (buttonStates[5] && buttonStates[7] && buttonStates[9])
+      lcd.print("F major");
+    Serial.writeln("F minor");
+  } else {
+    Serial.writeln("No chords being played");
   }
 
-  delay(5);
+  // print out the chords being played
+  //digitalWrite(22, HIGH);
+  //digitalWrite(23, LOW);
+}
+else {
+  // do nothing
+}
+
+delay(5);
 }
