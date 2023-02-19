@@ -21,30 +21,42 @@ int buttonPins[] = { 41, 50, 39, 52, 43, 45, 47, 49, 51, 53 };
 int buttonStates[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 String notes[] = { "C", "C#/Db", "D", "D#/Eb", "E", "F", "G", "A", "B", "C" };
 byte notes_lcd[10][8] = {
-  { B01111100, B01111110, B00000110, B00000110, B00000110, B00000110, B01111110, B01111100 },  //C
+  { B00111110, B01111110, B01100000, B01100000, B01100000, B01100000, B01111110, B00111110 },  //C
   { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },  //C#(NONE)
-  { B00011110, B00111110, B01100110, B01100110, B01100110, B01100110, B00111110, B00011110 },  //D
-  { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },  //D#(NONE)
-  { B01111110, B01111110, B00000110, B01111110, B01111110, B00000110, B01111110, B01111110 },  //E
-  { B01111110, B01111110, B00000110, B00111110, B00111110, B00000110, B00000110, B00000110 },  //F
-  { B00011100, B00111110, B00100110, B00000110, B01110110, B00100110, B00111110, B00011100 },  //G
-  { B00011000, B00111100, B01100110, B01100110, B01111110, B01111110, B01100110, B01100110 },  //A
-  { B00111110, B01100110, B01100110, B01111110, B00111110, B01100110, B01100110, B00111110 },  //B
-  { B01111100, B01111110, B00000110, B00000110, B00000110, B00000110, B01111110, B01111100 },  //C
+    { B01111000, B01111100, B01100110, B01100110, B01100110, B01100110, B01111100, B01111000 },  //D
+    { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 },  //D#(NONE)
+    { B01111110, B01111110, B01100000, B01111110, B01111110, B01100000, B01111110, B01111110 },  //E
+    { B01111110, B01111110, B00000110, B00111110, B00111110, B00000110, B00000110, B00000110 },  //F
+    { B00011100, B00111110, B00100110, B00000110, B01110110, B00100110, B00111110, B00011100 },  //G
+    { B01100110, B01100110, B01111110, B01111110, B01100110, B01100110, B00111100, B00011000 },  //A
+    { B01111100, B01100110, B01100110, B01111100, B01111110, B01100110, B01100110, B00111110 },  //B
+    { B00111110, B01111110, B01100000, B01100000, B01100000, B01100000, B01111110, B00111110 }  //C
 };
 String chords[] = { "C major", "C minor", "D major", "D minor", "E major", "E minor" };
 int numButtons = 10;
 //int playingNotes[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 int numPlayingNotes = 0;
 
-byte alphabet[8][8] = { { B00011000, B00111100, B01100110, B01100110, B01111110, B01111110, B01100110, B01100110 },    //A
-                        { B00111110, B01100110, B01100110, B01111110, B00111110, B01100110, B01100110, B00111110 },    //B
-                        { B01111100, B01111110, B00000110, B00000110, B00000110, B00000110, B01111110, B01111100 },    //C
-                        { B00011110, B00111110, B01100110, B01100110, B01100110, B01100110, B00111110, B00011110 },    //D
-                        { B01111110, B01111110, B00000110, B01111110, B01111110, B00000110, B01111110, B01111110 },    //E
-                        { B01111110, B01111110, B00000110, B00111110, B00111110, B00000110, B00000110, B00000110 },    //F
-                        { B00011100, B00111110, B00100110, B00000110, B01110110, B00100110, B00111110, B00011100 },    //G
-                        { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 } };  //NONE
+// byte alphabet[8][8] = { { B00011000, B00111100, B01100110, B01100110, B01111110, B01111110, B01100110, B01100110 },    //A
+//                         { B00111110, B01100110, B01100110, B01111110, B00111110, B01100110, B01100110, B00111110 },    //B
+//                         { B01111100, B01111110, B00000110, B00000110, B00000110, B00000110, B01111110, B01111100 },    //C
+//                         { B00011110, B00111110, B01100110, B01100110, B01100110, B01100110, B00111110, B00011110 },    //D
+//                         { B01111110, B01111110, B00000110, B01111110, B01111110, B00000110, B01111110, B01111110 },    //E
+//                         { B01111110, B01111110, B00000110, B00111110, B00111110, B00000110, B00000110, B00000110 },    //F
+//                         { B00011100, B00111110, B00100110, B00000110, B01110110, B00100110, B00111110, B00011100 },    //G
+//                         { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 } };  //NONE
+
+//FLIPPED VERSION
+byte alphabet[8][8] = {
+  { B01100110, B01100110, B01111110, B01111110, B01100110, B01100110, B00111100, B00011000 },  //A
+  { B01111100, B01100110, B01100110, B01111100, B01111110, B01100110, B01100110, B00111110 },  //B
+  { B00111110, B01111110, B01100000, B01100000, B01100000, B01100000, B01111110, B00111110 },  //C
+  { B01111000, B01111100, B01100110, B01100110, B01100110, B01100110, B01111100, B01111000 },  //D
+  { B01111110, B01111110, B01100000, B01111110, B01111110, B01100000, B01111110, B01111110 },  //E
+  { B01100000, B01100000, B01100000, B01111100, B01111100, B01100000, B01111100, B01111100 },  //F
+  { B00111000, B01111100, B01100100, B01101110, B01100000, B01100000, B01111100, B00111000 },  //G
+  { B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000, B00000000 }   //NONE
+};
 
 void setup() {
   // set up the devices needed
@@ -196,56 +208,52 @@ void loop() {
   for (int i = 0; i < numButtons; i++) {
     buttonStates[i] = digitalRead(buttonPins[i]);
   }
-
-
-  for (int i = 0, offset = 0; i < numButtons; i++) {
+  lcd.setCursor(7, 0);
+  for (int i = 0, pos = 6, offset = 1; i < numButtons; i++) {
     if (buttonStates[i] == HIGH) {
       numPlayingNotes++;
-      if (i == 1 || i == 3) {
-        lcd.setCursor(i + 6 + offset, 0);
-        offset += 6;
-      } else {
-        lcd.setCursor(i + 6 + offset, 0);
-        offset += 2;
+      if (numPlayingNotes > 3) {
+        break;
       }
-
       lcd.print(notes[i]);
-      chordState += i;
+      lcd.print(" ");
+      writeInMatrix(notes_lcd[i], 0);
     }
   }
 
-  if (numPlayingNotes == 1) {
-    writeInMatrix(notes_lcd[i], 0);
-  } else if (numPlayingNotes == 0) {
+  if (numPlayingNotes == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Notes:");
+    lcd.setCursor(0, 1);
+    lcd.print("Chord:");
     writeInMatrix(notes_lcd[1], 0);
+
   } else if (numPlayingNotes == 3) {
     lcd.setCursor(6, 1);
     if (buttonStates[0] && buttonStates[3] && buttonStates[6]) {
       lcd.print("C minor");
-      Serial.writeln("C minor");
+      Serial.println("C minor");
     } else if (buttonStates[0] && buttonStates[4] && buttonStates[6]) {
       lcd.print("C major");
-      Serial.writeln("C major");
+      Serial.println("C major");
     } else if (buttonStates[2] && buttonStates[5] && buttonStates[7]) {
       lcd.print("D minor");
-      Serial.writeln("D minor");
+      Serial.println("D minor");
     } else if (buttonStates[4] && buttonStates[6] && buttonStates[8]) {
       lcd.print("E minor");
-      Serial.writeln("E minor");
+      Serial.println("E minor");
     } else if (buttonStates[5] && buttonStates[7] && buttonStates[9])
       lcd.print("F major");
-    Serial.writeln("F minor");
+    Serial.println("F minor");
   } else {
-    Serial.writeln("No chords being played");
+    Serial.println("No chords being played");
   }
 
   // print out the chords being played
   //digitalWrite(22, HIGH);
   //digitalWrite(23, LOW);
-}
-else {
-  // do nothing
-}
 
-delay(5);
+
+  delay(20);
 }
